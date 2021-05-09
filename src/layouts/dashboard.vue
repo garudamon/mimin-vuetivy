@@ -5,6 +5,7 @@
         v-if="primaryDrawer.type !== 'permanent'"
         @click.stop="primaryDrawer.model = !primaryDrawer.model"
       ></v-app-bar-nav-icon>
+      <v-spacer></v-spacer>
       <v-btn
         icon
         @click="$vuetify.theme.dark = !$vuetify.theme.dark"
@@ -85,31 +86,31 @@
 </style>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 export default {
   data: () => ({
-    right: null
+    right: null,
   }),
   computed: mapState({
-    primaryDrawer: state => {
+    primaryDrawer: (state) => {
       return state.layout.primaryDrawer;
     },
     breadcrumbs: function() {
       return this.$route.meta.breadcrumbs;
-    }
+    },
   }),
   components: {
     Drawer: () =>
-      import(/* webpackChunkName: "app-drawer" */ "@/components/Drawer.vue")
+      import(/* webpackChunkName: "app-drawer" */ '@/components/Drawer.vue'),
   },
   methods: {
     title() {
-      if (this.$route.name == null) return "";
+      if (this.$route.name == null) return '';
       return this.$route.name
-        .split("-")
-        .map(s => s.charAt(0).toUpperCase() + s.substring(1))
+        .split('-')
+        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
         .join(` `);
-    }
-  }
+    },
+  },
 };
 </script>
