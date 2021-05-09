@@ -10,24 +10,27 @@
     dark
     app
     overflow
+    class="pt-10"
   >
-    <v-list-item class="px-2 brand">
-      <v-list-item-avatar>
-        <v-img :src="logo"></v-img>
-      </v-list-item-avatar>
+    <v-app-bar absolute color="white" elevate-on-scroll class="px-0 app-drawer">
+      <v-list-item class="px-0 brand">
+        <v-list-item-avatar>
+          <v-img :src="logo"></v-img>
+        </v-list-item-avatar>
 
-      <v-list-item-title>
-        {{ title }}
-      </v-list-item-title>
+        <v-list-item-title>
+          {{ title }}
+        </v-list-item-title>
 
-      <v-btn icon @click.stop="primaryDrawer.mini = !primaryDrawer.mini">
-        <v-icon color="#333">mdi-chevron-left</v-icon>
-      </v-btn>
-    </v-list-item>
+        <v-btn icon @click.stop="primaryDrawer.mini = !primaryDrawer.mini">
+          <v-icon color="#333">mdi-chevron-left</v-icon>
+        </v-btn>
+      </v-list-item>
+    </v-app-bar>
 
     <v-divider></v-divider>
 
-    <v-list dense shaped nav>
+    <v-list dense shaped nav class="mt-5">
       <template v-for="(route, idx) in routes">
         <template v-if="!!route.childs">
           <v-divider :key="`${idx}-${route.name}-divider`" />
@@ -83,32 +86,46 @@
 </template>
 
 <style lang="scss" scoped>
-.brand {
-  background-color: white;
-  color: #333;
-  .v-list-item__title {
+.app-drawer {
+  .v-toolbar__content {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  .brand {
+    background-color: white;
     color: #333;
+    .v-list-item__title {
+      color: #333;
+    }
+  }
+}
+</style>
+<style lang="scss">
+.app-drawer {
+  .v-toolbar__content {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
   }
 }
 </style>
 
 <script>
-import { mapState } from "vuex";
-import logo from "@/assets/logo.png";
+import { mapState } from 'vuex';
+import logo from '@/assets/logo.png';
 export default {
   data: () => ({
     logo,
-    title: "Vuetify Lay..."
+    title: 'Vuetify Lay...',
   }),
   computed: mapState({
-    routes: state => state.layout.routes,
-    primaryDrawer: state => state.layout.primaryDrawer
+    routes: (state) => state.layout.routes,
+    primaryDrawer: (state) => state.layout.primaryDrawer,
   }),
   methods: {
     async logout() {
       await localStorage.clear();
-      this.$router.push("/login");
-    }
-  }
+      this.$router.push('/login');
+    },
+  },
 };
 </script>
