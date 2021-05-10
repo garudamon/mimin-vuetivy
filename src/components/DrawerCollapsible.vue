@@ -33,31 +33,31 @@
     <v-list dense shaped nav class="mt-5">
       <template v-for="(route, idx) in routes">
         <template v-if="!!route.childs">
-          <v-divider :key="`${idx}-${route.name}-divider`" />
-          <v-subheader
-            class="mt-4 white--text text--darken-1"
+          <v-list-group
             :key="`${idx}-${route.name}`"
+            :prepend-icon="route.icon"
+            active-class="white--text"
           >
-            <v-icon small>{{ route.icon }}</v-icon>
-            <span class="pl-2" v-if="!primaryDrawer.mini">{{
-              route.name.toUpperCase()
-            }}</span>
-            <v-icon x-small v-else>mdi-chevron-down</v-icon>
-          </v-subheader>
-          <v-list-item
-            v-for="item in route.childs"
-            :key="`${item.name}-${route.name}`"
-            :to="item.path"
-          >
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
+            <template v-slot:activator>
+              <v-list-item-title>{{
+                route.name.toUpperCase()
+              }}</v-list-item-title>
+            </template>
+            <v-list-item
+              v-for="item in route.childs"
+              :key="`${item.name}-${route.name}`"
+              :to="item.path"
+              class="pl-10"
+            >
+              <v-list-item-icon class="mr-3">
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title v-text="item.name" />
-            </v-list-item-content>
-          </v-list-item>
-          <v-divider :key="`${idx}-${route.name}-divider2`" />
+              <v-list-item-content>
+                <v-list-item-title v-text="item.name" />
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
         </template>
 
         <v-list-item :key="idx" :to="route.path" v-else>
@@ -99,12 +99,27 @@
     }
   }
 }
+.v-list-group--active {
+  background-color: rgba($color: #000000, $alpha: 0.4);
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.v-list-item__icon {
+  &:first-child {
+    margin-right: 10px !important;
+  }
+}
 </style>
 <style lang="scss">
 .app-drawer {
   .v-toolbar__content {
     padding-left: 8px !important;
     padding-right: 8px !important;
+  }
+}
+.v-list-group__header__prepend-icon {
+  &:first-child {
+    margin-right: 10px !important;
   }
 }
 </style>
