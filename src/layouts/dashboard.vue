@@ -14,6 +14,10 @@
         <v-icon v-if="!$vuetify.theme.dark">mdi-weather-night</v-icon>
         <v-icon v-else>mdi-weather-sunny</v-icon>
       </v-btn>
+      <v-btn icon @click="toggleDrawer" class="mr-3">
+        <v-icon v-if="drawerCollapse == 'true'">mdi-view-list</v-icon>
+        <v-icon v-else>mdi-collapse-all-outline</v-icon>
+      </v-btn>
       <v-menu offset-y min-width="150">
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" icon>
@@ -30,7 +34,8 @@
       </v-menu>
     </v-app-bar>
 
-    <drawer />
+    <drawer-collapsible v-if="drawerCollapse == 'true'" />
+    <drawer v-else />
 
     <v-content>
       <v-container fluid>
@@ -70,7 +75,7 @@
     <v-footer :inset="true" app>
       <v-spacer></v-spacer>
       <span class="px-0"
-        >&copy; {{ new Date().getFullYear() }} — <b>Nayla</b></span
+        >&copy; {{ new Date().getFullYear() }} — <b>Garudamon</b></span
       >
     </v-footer>
   </v-app>
@@ -86,7 +91,7 @@
 </style>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 export default {
   data: () => ({
     right: null,
@@ -98,12 +103,22 @@ export default {
     breadcrumbs: function() {
       return this.$route.meta.breadcrumbs;
     },
+    drawerCollapse: (state) => {
+      return state.layout.drawerCollapse;
+    },
   }),
   components: {
     Drawer: () =>
       import(/* webpackChunkName: "app-drawer" */ '@/components/Drawer.vue'),
+    DrawerCollapsible: () =>
+      import(
+        /* webpackChunkName: "app-drawer-collapsible" */ '@/components/DrawerCollapsible.vue'
+      ),
   },
   methods: {
+    ...mapMutations({
+      toggleDrawer: 'layout/toggleDrawer',
+    }),
     title() {
       if (this.$route.name == null) return '';
       return this.$route.name
